@@ -249,7 +249,7 @@
   .float-btn.call{background:var(--navy); color:var(--white);}
 
   /* Conexa Network - visual portfolio */
-  .hero{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(90deg,rgba(8,15,38,.98) 0%,rgba(8,15,38,.90) 48%,rgba(8,15,38,.42) 100%),url('https://images.pexels.com/photos/6804586/pexels-photo-6804586.jpeg?auto=compress&cs=tinysrgb&w=1800') center/cover no-repeat;}
+  .hero{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(90deg,rgba(8,15,38,.98) 0%,rgba(8,15,38,.90) 48%,rgba(8,15,38,.42) 100%),url('https://images.pexels.com/photos/1054397/pexels-photo-1054397.jpeg?auto=compress&cs=tinysrgb&w=1800') center/cover no-repeat;}
   .hero-grid{position:relative;z-index:2;}
   .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,15,38,.32));pointer-events:none;}
   .visual-section{padding-top:20px;}
@@ -276,6 +276,12 @@
   .trust-note p{font-size:.82rem;color:var(--muted);}
   @media(max-width:800px){.visual-intro{display:block}.visual-grid{grid-template-columns:1fr}.process-band{grid-template-columns:1fr 1fr}.hero{border-radius:18px}}
   @media(max-width:520px){.process-band{grid-template-columns:1fr}.visual-card{min-height:250px}.visual-card.small{min-height:210px}}
+
+  /* fix: hero title/tagline were invisible over the dark photo background */
+  .hero h1{color:#FFFFFF;}
+  .hero h1 .accent{color:var(--teal);}
+  .hero .tagline{color:#C9D3EA; border-bottom-color:rgba(255,255,255,0.18);}
+  .hero .badge-outline{background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.35);}
 
 </style>
 </head>
@@ -405,28 +411,28 @@
 
       <div class="visual-grid">
         <article class="visual-card">
-          <img src="https://images.pexels.com/photos/6804586/pexels-photo-6804586.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Profissional trabalhando com cabeamento de rede em infraestrutura de TI" loading="lazy">
+          <img src="images/passagem-de-cabo.png" alt="Passagem de cabos de rede estruturados até o rack" loading="lazy">
           <div class="visual-copy">
-            <div class="mini">01 · Cabeamento</div>
-            <h3>Cabeamento estruturado</h3>
-            <p>Instalação, organização, identificação e padronização da infraestrutura física.</p>
+            <div class="mini">01 · Passagem de cabo</div>
+            <h3>Passagem e organização de cabeamento</h3>
+            <p>Roteamento, identificação e padronização dos cabos — sem gambiarra e sem improviso.</p>
           </div>
         </article>
         <div class="visual-stack">
           <article class="visual-card small">
-            <img src="https://images.pexels.com/photos/2881229/pexels-photo-2881229.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Cabos de rede conectados em rack" loading="lazy">
+            <img src="images/tecnico-datacenter.png" alt="Técnico configurando cabeamento de rede em data center" loading="lazy">
             <div class="visual-copy">
-              <div class="mini">02 · Rack</div>
-              <h3>Racks e organização</h3>
-              <p>Equipamentos organizados e documentação para facilitar a manutenção.</p>
+              <div class="mini">02 · UniFi</div>
+              <h3>Redes UniFi (Ubiquiti)</h3>
+              <p>Pontos de acesso e switches configurados para Wi-Fi estável e sem zona morta.</p>
             </div>
           </article>
           <article class="visual-card small">
-            <img src="https://images.pexels.com/photos/4373998/pexels-photo-4373998.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Equipamento de fibra óptica em rack" loading="lazy">
+            <img src="images/switch-patch-cables.png" alt="Switch de rede com cabos de conexão e LEDs" loading="lazy">
             <div class="visual-copy">
-              <div class="mini">03 · Fibra</div>
-              <h3>Fibra óptica</h3>
-              <p>Interligações e infraestrutura óptica para ambientes que exigem desempenho.</p>
+              <div class="mini">03 · MikroTik</div>
+              <h3>Roteadores MikroTik</h3>
+              <p>Configuração avançada: controle de acesso, QoS, VPN e segurança de rede.</p>
             </div>
           </article>
         </div>
