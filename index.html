@@ -159,6 +159,22 @@
   }
   .serv-item strong{font-weight:700; font-size:0.96rem;}
 
+  /* SERVICE TABS */
+  .service-tabs{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px;}
+  .service-tab{
+    padding:11px 18px; border-radius:10px; background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14); color:#B9C4E0; font-weight:700; font-size:0.86rem;
+    cursor:pointer; transition:background .18s ease, color .18s ease, border-color .18s ease;
+    font-family:'Inter'; display:inline-flex; align-items:center; gap:8px;
+  }
+  .service-tab:hover{color:#fff; border-color:rgba(255,255,255,0.3);}
+  .service-tab.active{background:linear-gradient(120deg,var(--teal),var(--teal-2)); color:var(--navy-deep); border-color:transparent;}
+  .service-panel{display:none;}
+  .service-panel.active{display:block; animation:fadeIn .3s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .service-panel .serv-grid{grid-template-columns:repeat(2,1fr);}
+  @media(max-width:700px){.service-panel .serv-grid{grid-template-columns:1fr;}}
+
   /* EQUIPE */
   .team-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
   @media(max-width:900px){.team-grid{grid-template-columns:1fr;}}
@@ -391,7 +407,7 @@
               PRESENCIAL
             </span>
           </div>
-          <p class="tagline">Redes • Cabeamento • Fibra Óptica • Wi-Fi • Servidores • Segurança Eletrônica</p>
+          <p class="tagline">Redes & Infraestrutura • Wi-Fi Profissional • Firewall & Segurança • Monitoramento</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="https://wa.me/5569993645405?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2"/></svg>
@@ -409,8 +425,8 @@
           <div class="float-tag">
             <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
             <div>
-              <div class="t1">Especialistas técnicos</div>
-              <div class="t2">Atendimento direto</div>
+              <div class="t1">3 especialistas técnicos</div>
+              <div class="t2">Tiago, Marcelo e Rafael — atendimento direto</div>
             </div>
           </div>
         </div>
@@ -518,16 +534,82 @@
       <div class="servicos-wrap">
         <div class="section-tag">O QUE FAZEMOS</div>
         <h2>Serviços</h2>
-        <p class="section-sub">Redes, servidores e segurança eletrônica com suporte de ponta a ponta.</p>
-        <div class="serv-grid">
-          <div class="serv-item"><span class="dot"></span><strong>Configuração de roteadores MikroTik</strong></div>
-          <div class="serv-item"><span class="dot"></span><strong>Configuração de redes UniFi (Ubiquiti)</strong></div>
-          <div class="serv-item"><span class="dot"></span><strong>Cabeamento estruturado e organização de racks</strong></div>
-          <div class="serv-item"><span class="dot"></span><strong>Infraestrutura e interligação por fibra óptica</strong></div>
-          <div class="serv-item"><span class="dot"></span><strong>Instalação de câmeras de segurança</strong></div>
-          <div class="serv-item"><span class="dot"></span><strong>Estruturação de redes internas de empresas</strong></div>
-          <div class="serv-item"><span class="dot"></span><strong>Suporte técnico do básico ao avançado</strong></div>
-          <div class="serv-item"><span class="dot"></span><strong>Infraestrutura de TI para empresas</strong></div>
+        <p class="section-sub">Redes, Wi-Fi, segurança e monitoramento com suporte de ponta a ponta — do projeto ao acompanhamento contínuo.</p>
+
+        <div class="service-tabs">
+          <button class="service-tab active" data-tab="redes">🌐 Redes e Infraestrutura</button>
+          <button class="service-tab" data-tab="wifi">📡 Wi-Fi Profissional</button>
+          <button class="service-tab" data-tab="firewall">🔥 Firewall e Segurança</button>
+          <button class="service-tab" data-tab="monitor">🖥️ Monitoramento e Gestão</button>
+        </div>
+
+        <div class="service-panel active" data-panel="redes">
+          <div class="serv-grid">
+            <div class="serv-item"><span class="dot"></span><strong>Projeto e implantação de redes corporativas</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Cabeamento estruturado</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Organização de racks e patch panels</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Identificação de cabos</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Instalação e configuração de switches</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Configuração de roteadores</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>VLANs</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>DHCP / DNS</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>NAT</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>PPPoE</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>VPN</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Segmentação de rede</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Redimensionamento de redes</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Diagnóstico de lentidão e instabilidade</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Documentação da infraestrutura</strong></div>
+          </div>
+        </div>
+
+        <div class="service-panel" data-panel="wifi">
+          <div class="serv-grid">
+            <div class="serv-item"><span class="dot"></span><strong>Projeto de cobertura Wi-Fi</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Instalação de UniFi / Ubiquiti</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Configuração de Access Points</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Roaming</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Separação de redes corporativa / convidados</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Controle de acesso</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Análise de interferência</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Otimização de canais</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Dimensionamento de quantidade de APs</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Troubleshooting de Wi-Fi</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Auditoria de rede sem fio</strong></div>
+          </div>
+        </div>
+
+        <div class="service-panel" data-panel="firewall">
+          <div class="serv-grid">
+            <div class="serv-item"><span class="dot"></span><strong>Configuração de MikroTik</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Firewall</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>NAT</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>VPN para usuários</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Controle de acesso</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Bloqueios e políticas</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Segmentação de rede</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Segurança de Wi-Fi</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Controle de banda</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Redundância de internet</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Failover</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Balanceamento de links</strong></div>
+          </div>
+        </div>
+
+        <div class="service-panel" data-panel="monitor">
+          <div class="serv-grid">
+            <div class="serv-item"><span class="dot"></span><strong>Implantação de Zabbix</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Grafana</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Monitoramento de servidores</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Monitoramento de links</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Monitoramento de switches</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Monitoramento de roteadores</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Monitoramento de APs</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Alertas de indisponibilidade</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Monitoramento de CPU, memória e tráfego</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Relatórios mensais</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Acompanhamento preventivo</strong></div>
+          </div>
         </div>
       </div>
     </section>
@@ -652,6 +734,17 @@
 </div>
 
 <script>
+  // service tabs
+  document.querySelectorAll('.service-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var target = tab.getAttribute('data-tab');
+      document.querySelectorAll('.service-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.service-panel').forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.querySelector('.service-panel[data-panel="'+target+'"]').classList.add('active');
+    });
+  });
+
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(function(item){
     item.querySelector('.faq-q').addEventListener('click', function(){
