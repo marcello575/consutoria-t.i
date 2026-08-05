@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conexa Network — Suporte Técnico</title>
+<title>Conexa Network | Infraestrutura de TI, Redes e Wi-Fi Corporativo</title>
+<meta name="description" content="Conexa Network: projeto, implantação e gestão de infraestrutura de TI para empresas — redes corporativas, Wi-Fi profissional, firewall, monitoramento e suporte remoto e presencial.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%2322D3C0'/%3E%3Ccircle cx='6' cy='7' r='2.6' fill='%23080F26'/%3E%3Ccircle cx='18' cy='7' r='2.6' fill='%23080F26'/%3E%3Ccircle cx='12' cy='18' r='2.6' fill='%23080F26'/%3E%3Cpath d='M8.2 8.2 10 15.5M15.8 8.2 14 15.5M8.6 7h6.8' stroke='%23080F26' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -356,6 +357,49 @@
   .tech-pill{transition:transform .18s ease, background .18s ease, color .18s ease;}
   .tech-pill:hover{transform:translateY(-2px); background:var(--navy); color:#fff;}
 
+  /* problemas que resolvemos */
+  .problem-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:28px;}
+  @media(max-width:700px){.problem-grid{grid-template-columns:1fr;}}
+  .problem-item{
+    display:flex; gap:12px; align-items:center; background:var(--white); border:1px solid var(--border);
+    border-radius:12px; padding:15px 18px; font-weight:700; font-size:0.92rem; color:var(--navy-deep);
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .problem-item:hover{border-color:rgba(226,87,76,0.4); transform:translateX(2px);}
+  .problem-item .warn{color:#E2574C; flex-shrink:0;}
+  .problem-solution{
+    background:linear-gradient(120deg, var(--teal), var(--teal-2)); color:var(--navy-deep);
+    border-radius:14px; padding:22px 26px; font-weight:800; text-align:center; font-size:1.05rem; margin-bottom:26px;
+  }
+
+  /* planos */
+  .plans-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media(max-width:900px){.plans-grid{grid-template-columns:1fr;}}
+  .plan-card{
+    background:var(--white); border:1px solid var(--border); border-radius:16px; padding:28px 24px;
+    display:flex; flex-direction:column; transition:transform .22s ease, box-shadow .22s ease;
+  }
+  .plan-card:hover{transform:translateY(-5px); box-shadow:0 20px 34px -18px rgba(19,35,82,0.35);}
+  .plan-card.featured{border-color:var(--teal-2); box-shadow:0 20px 34px -18px rgba(31,168,214,0.3);}
+  .plan-badge{
+    align-self:flex-start; background:var(--teal-2); color:#fff; font-size:0.7rem; font-weight:800;
+    padding:4px 12px; border-radius:20px; margin-bottom:14px; text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .plan-card h3{font-size:1.1rem; color:var(--navy-deep); margin-bottom:6px;}
+  .plan-card .plan-sub{font-size:0.86rem; color:var(--muted); margin-bottom:18px;}
+  .plan-card ul{margin-bottom:22px; flex:1;}
+  .plan-card li{
+    display:flex; gap:9px; align-items:flex-start; font-size:0.88rem; color:var(--ink);
+    padding:7px 0; border-top:1px solid var(--border);
+  }
+  .plan-card li:first-child{border-top:none;}
+  .plan-card li svg{color:var(--teal-2); flex-shrink:0; margin-top:2px;}
+  .plan-cta{
+    text-align:center; padding:11px; border-radius:9px; font-weight:700; font-size:0.88rem;
+    background:var(--navy); color:#fff; transition:background .18s ease;
+  }
+  .plan-cta:hover{background:var(--teal-2); color:var(--navy-deep);}
+
 </style>
 </head>
 <body>
@@ -385,6 +429,7 @@
         <a href="#projetos">Projetos</a>
         <a href="#equipe">Equipe</a>
         <a href="#como-funciona">Como funciona</a>
+        <a href="#planos">Planos</a>
         <a href="#faq">Dúvidas</a>
       </nav>
       <div class="top-actions">
@@ -396,7 +441,7 @@
     <section class="hero">
       <div class="hero-grid">
         <div>
-          <h1>INFRAESTRUTURA<br><span class="accent">QUE CONECTA</span></h1>
+          <h1>SUA INFRAESTRUTURA<br><span class="accent">FUNCIONANDO DE VERDADE</span></h1>
           <div class="badges">
             <span class="badge badge-solid">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
@@ -407,11 +452,11 @@
               PRESENCIAL
             </span>
           </div>
-          <p class="tagline">Redes & Infraestrutura • Wi-Fi Profissional • Firewall & Segurança • Monitoramento</p>
+          <p class="tagline">Projetamos, implantamos e gerenciamos redes corporativas, Wi-Fi, segurança e monitoramento para empresas.</p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="https://wa.me/5569993645405?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener">
+            <a class="btn btn-primary" href="https://wa.me/5569993645405?text=Ol%C3%A1!%20Quero%20solicitar%20um%20diagn%C3%B3stico%20de%20rede." target="_blank" rel="noopener">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2"/></svg>
-              Falar no WhatsApp
+              Solicitar diagnóstico
             </a>
             <a class="btn btn-dark" href="tel:+5569993645405">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -448,6 +493,27 @@
         <div class="stat-box"><div class="num">24h</div><div class="lbl">Resposta em dia útil</div></div>
       </div>
     </div>
+
+    <section class="section reveal" id="problemas">
+      <div class="section-tag">DIAGNÓSTICO RÁPIDO</div>
+      <h2>Sua empresa enfrenta algum desses problemas?</h2>
+      <p class="section-sub">Se marcou pelo menos um, isso já está custando tempo, produtividade e dinheiro — e tem solução.</p>
+      <div class="problem-grid">
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Wi-Fi lento ou instável</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Internet cai constantemente</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Rede sem organização</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Cabos sem identificação</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Roteador/switch mal configurado</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Falta de segurança na rede</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Câmeras sem acesso remoto</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Falta de monitoramento</div>
+        <div class="problem-item"><svg class="warn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Empresa crescendo e a rede não acompanha</div>
+      </div>
+      <div class="problem-solution">Nós identificamos a causa e implantamos a solução adequada.</div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://wa.me/5569993645405?text=Ol%C3%A1!%20Estou%20com%20problema(s)%20na%20rede%20e%20quero%20resolver." target="_blank" rel="noopener">Resolver meu problema</a>
+      </div>
+    </section>
 
     <section class="section reveal" id="diferenciais">
       <div class="section-tag">POR QUE A CONEXA</div>
@@ -541,6 +607,7 @@
           <button class="service-tab" data-tab="wifi">📡 Wi-Fi Profissional</button>
           <button class="service-tab" data-tab="firewall">🔥 Firewall e Segurança</button>
           <button class="service-tab" data-tab="monitor">🖥️ Monitoramento e Gestão</button>
+          <button class="service-tab" data-tab="suporte">🛠️ Suporte & Gestão</button>
         </div>
 
         <div class="service-panel active" data-panel="redes">
@@ -609,6 +676,20 @@
             <div class="serv-item"><span class="dot"></span><strong>Monitoramento de CPU, memória e tráfego</strong></div>
             <div class="serv-item"><span class="dot"></span><strong>Relatórios mensais</strong></div>
             <div class="serv-item"><span class="dot"></span><strong>Acompanhamento preventivo</strong></div>
+          </div>
+        </div>
+
+        <div class="service-panel" data-panel="suporte">
+          <div class="serv-grid">
+            <div class="serv-item"><span class="dot"></span><strong>Suporte técnico remoto e presencial</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Configuração de impressoras (HP, Epson, Brother e outras)</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Compartilhamento de impressora em rede</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Instalação e configuração de servidores</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Manutenção preventiva</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Documentação da infraestrutura</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Suporte a estações de trabalho</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Backup e recuperação básica</strong></div>
+            <div class="serv-item"><span class="dot"></span><strong>Acompanhamento contínuo do ambiente de TI</strong></div>
           </div>
         </div>
       </div>
@@ -682,6 +763,50 @@
           <div class="step-num">3</div>
           <h3>Solução aplicada e documentada</h3>
           <p>Serviço executado com acompanhamento e suporte contínuo depois.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="planos">
+      <div class="section-tag">MANUTENÇÃO CONTÍNUA</div>
+      <h2>Planos de suporte mensal</h2>
+      <p class="section-sub">Pra empresa que quer parar de apagar incêndio e passar a ter a rede acompanhada de verdade. Sem valor fixo publicado — cada proposta é montada pro tamanho da sua operação.</p>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-badge">ESSENCIAL</div>
+          <h3>Essencial</h3>
+          <p class="plan-sub">Pra quem precisa de suporte confiável sem complicação.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Suporte remoto</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Diagnóstico sob demanda</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Manutenção corretiva</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Monitoramento básico</li>
+          </ul>
+          <a class="plan-cta" href="https://wa.me/5569993645405?text=Ol%C3%A1!%20Quero%20uma%20proposta%20do%20plano%20Essencial." target="_blank" rel="noopener">Solicitar proposta</a>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-badge">MAIS PROCURADO</div>
+          <h3>Profissional</h3>
+          <p class="plan-sub">Equilíbrio entre presença ativa e custo controlado.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Suporte remoto + presencial</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Monitoramento ativo</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Manutenção preventiva</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Relatórios periódicos</li>
+          </ul>
+          <a class="plan-cta" href="https://wa.me/5569993645405?text=Ol%C3%A1!%20Quero%20uma%20proposta%20do%20plano%20Profissional." target="_blank" rel="noopener">Solicitar proposta</a>
+        </div>
+        <div class="plan-card">
+          <div class="plan-badge">GESTÃO</div>
+          <h3>Gestão</h3>
+          <p class="plan-sub">Infraestrutura tratada como prioridade constante.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Tudo do Profissional</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Monitoramento contínuo</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Gestão de firewall e Wi-Fi</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Documentação e acompanhamento mensal</li>
+          </ul>
+          <a class="plan-cta" href="https://wa.me/5569993645405?text=Ol%C3%A1!%20Quero%20uma%20proposta%20do%20plano%20Gest%C3%A3o." target="_blank" rel="noopener">Solicitar proposta</a>
         </div>
       </div>
     </section>
