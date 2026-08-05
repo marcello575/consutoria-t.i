@@ -1,1 +1,4 @@
-
+Contact: mailto:contato@conexanetwork.com.br
+Contact: https://wa.me/5569993645405
+Preferred-Languages: pt-BR
+Canonical: https://conexanetwork.com.br/.well-known/security.txt
