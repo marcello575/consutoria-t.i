@@ -311,3 +311,20 @@ body.no3d #bg3d{display:none}
 .speed{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
 .speed .note{margin:0;flex:1 1 220px}
 @media (max-width:640px){.speed .btn{flex:1 1 100%;justify-content:center}}
+
+/* ---------- Página legal ---------- */
+.legal{max-width:76ch;display:grid;gap:14px}
+.legal h2{font-size:clamp(20px,2.2vw,26px);margin-top:28px;scroll-margin-top:90px}
+.legal h3{font-size:16px;margin-top:8px}
+.legal p,.legal li{color:var(--muted);font-size:16px;line-height:1.7}
+.legal p b,.legal li b{color:var(--fg)}
+.legal ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.legal a{color:var(--accent)}
+.legal .tbl-w{margin-top:6px}
+.legal table{min-width:560px}
+.legal td{color:var(--muted);vertical-align:top}
+.toc{display:flex;flex-wrap:wrap;gap:8px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.toc a{font:500 13px var(--f-body);text-decoration:none;color:var(--fg);padding:6px 10px;border-radius:8px;border:1px solid var(--line-2)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+mark.fill{background:rgba(255,176,74,.18);color:var(--warn);padding:0 4px;border-radius:4px}
+.note a{color:var(--accent)}

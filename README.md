@@ -12,6 +12,7 @@ planos/index.html        /planos/
 sobre/index.html         /sobre/
 duvidas/index.html       /duvidas/
 contato/index.html       /contato/
+privacidade/index.html   /privacidade/ (Política de Privacidade · LGPD)
 sitemap.xml              lista de páginas para o Google
 favicon.svg              ícone da aba (também usado para medir a latência do visitante)
 assets/css/style.css     estilos (compartilhados por todas as páginas)
@@ -62,3 +63,8 @@ Depois acesse http://localhost:8080.
 ## Segurança
 
 A página mantém uma Content-Security-Policy no `<head>`. Ela libera apenas: scripts do próprio site e do cdnjs (Three.js), fontes do Google, imagens do próprio site e requisições ao próprio site (medição de latência). Os links externos aceitos são WhatsApp, Facebook e Speedtest.
+
+## LGPD: antes de publicar a Política de Privacidade
+
+Preencha os campos destacados em `privacidade/index.html` (procure por `mark class="fill"`): razão social, CNPJ, endereço, prazo de guarda de contatos e nome do encarregado. Depois de preencher, remova as marcações `<mark class="fill">` e atualize a data no topo.
+Valide o texto com o jurídico ou com a direção antes de publicar. Se o site passar a usar estatísticas, formulários com envio a servidor ou novos serviços externos, a política precisa ser atualizada.
