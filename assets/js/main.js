@@ -75,16 +75,19 @@ document.querySelectorAll(".ph img").forEach(img => {
 });
 
 /* ================= RENDER DE CONTEÚDO ================= */
-document.getElementById('svcGrid').innerHTML = SERVICES.map(s=>
-  `<a class="svc" href="#servicos" data-svc="${s.id}"><span class="ic">${ICONS[s.id]}</span><h3>${s.t}</h3><p>${s.d}</p><span class="layers">OSI · camada${s.L.length>1?'s':''} ${s.L.length===7?'1–7':s.L.join(', ')}</span></a>`).join('');
+const $=id=>document.getElementById(id);
+const PAGE=document.body.dataset.page||'inicio';
+if($('svcGrid')) $('svcGrid').innerHTML = SERVICES.map(s=>
+  `<a class="svc" href="/servicos/#${s.id}" data-svc="${s.id}"><span class="ic">${ICONS[s.id]}</span><h3>${s.t}</h3><p>${s.d}</p><span class="layers">OSI · camada${s.L.length>1?'s':''} ${s.L.length===7?'1–7':s.L.join(', ')}</span></a>`).join('');
 
-document.getElementById('svcList').innerHTML = SERVICES.map(s=>
+if($('svcList')) $('svcList').innerHTML = SERVICES.map(s=>
   `<div class="svc-item" data-id="${s.id}" tabindex="0"><span class="ic">${ICONS[s.id]}</span><div><h3>${s.t}</h3><p class="muted" style="margin-top:6px;font-size:15px">${s.d}</p><ul>${s.items.map(i=>`<li>${i}</li>`).join('')}</ul></div></div>`).join('');
 
 const osi = document.getElementById('osi');
-osi.innerHTML = OSI.map((n,i)=>`<div class="osi-l" data-l="${i+1}" style="transform:translateZ(${i*30}px)"><span>L${i+1} · ${n}</span></div>`).join('');
+if(osi) osi.innerHTML = OSI.map((n,i)=>`<div class="osi-l" data-l="${i+1}" style="transform:translateZ(${i*30}px)"><span>L${i+1} · ${n}</span></div>`).join('');
 const osiCap = document.getElementById('osiCap');
 function hlOSI(id){
+  if(!osi) return;
   const s = svcById[id];
   osi.querySelectorAll('.osi-l').forEach(el=>el.classList.toggle('hl', !!s && s.L.includes(+el.dataset.l)));
   document.querySelectorAll('.svc-item').forEach(el=>el.classList.toggle('act', el.dataset.id===id));
@@ -95,15 +98,16 @@ document.querySelectorAll('.svc-item').forEach(el=>{
   el.addEventListener('focus',()=>hlOSI(el.dataset.id));
   el.addEventListener('click',()=>hlOSI(el.dataset.id));
 });
-hlOSI('infra');
+hlOSI(svcById[location.hash.slice(1)]?location.hash.slice(1):'infra');
 
-document.getElementById('plans').innerHTML = PLANS.map(p=>
+if($('plans')) $('plans').innerHTML = PLANS.map(p=>
   `<div class="plan${p.feat?' feat':''}">${p.feat?'<span class="badge">MAIS PROCURADO</span>':''}<h3>${p.n}</h3><p class="for">${p.f}</p><ul>${p.i.map(i=>`<li>${check}<span>${i}</span></li>`).join('')}</ul><div class="price">Proposta sob medida<br><a class="btn ${p.feat?'btn-p':'btn-g'}" href="#contato" style="margin-top:14px" data-wpp="Olá! Vim pelo site e tenho interesse no plano ${p.n} de suporte mensal.">Quero o ${p.n}</a></div></div>`).join('');
 const cell = v => v===1?'<span class="yes">●</span>':v===0?'<span class="no">—</span>':`<span>${v}</span>`;
-document.getElementById('cmp').innerHTML = `<thead><tr><th>Recurso</th><th class="c">Essencial</th><th class="c">Profissional</th><th class="c">Gestão</th></tr></thead><tbody>${CMP.map(r=>`<tr><td>${r[0]}</td><td class="c">${cell(r[1])}</td><td class="c">${cell(r[2])}</td><td class="c">${cell(r[3])}</td></tr>`).join('')}</tbody>`;
+if($('cmp')) $('cmp').innerHTML = `<thead><tr><th>Recurso</th><th class="c">Essencial</th><th class="c">Profissional</th><th class="c">Gestão</th></tr></thead><tbody>${CMP.map(r=>`<tr><td>${r[0]}</td><td class="c">${cell(r[1])}</td><td class="c">${cell(r[2])}</td><td class="c">${cell(r[3])}</td></tr>`).join('')}</tbody>`;
 bindLinks(document);
 
 /* Diagnóstico */
+if($('chips')){
 const chips = document.getElementById('chips');
 chips.innerHTML = SYMPTOMS.map((s,i)=>`<button type="button" class="chip" aria-pressed="false" data-i="${i}">${s.t}</button>`).join('');
 const diagCta=document.getElementById('diagCta');
@@ -122,12 +126,15 @@ function updDiag(){
 chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true');updDiag();});
 updDiag();
 
+}
+
 /* Links (NOC) */
 const LINKS=[{n:'Link de internet · Online',u:62},{n:'Firewall · Ativo',u:34},{n:'Wi-Fi corporativo · Online',u:47},{n:'Alertas de falha · Ligados',u:12}];
 const linkRows=document.getElementById('linkRows');
-linkRows.innerHTML=LINKS.map((l,i)=>`<div class="link-row"><span class="dot"></span><div><b>${l.n}</b><div class="bar"><i id="lb${i}" style="width:${l.u}%"></i></div></div><small id="lv${i}">${l.u}%</small></div>`).join('');
+if(linkRows) linkRows.innerHTML=LINKS.map((l,i)=>`<div class="link-row"><span class="dot"></span><div><b>${l.n}</b><div class="bar"><i id="lb${i}" style="width:${l.u}%"></i></div></div><small id="lv${i}">${l.u}%</small></div>`).join('');
 
 /* Formulário */
+if($('form')){
 const form=document.getElementById('form');
 const opts = { porte: [...form.porte.options].map(o => o.text), servico: [...form.servico.options].map(o => o.text) };
 let lastSend = 0;
@@ -148,6 +155,7 @@ form.addEventListener('submit',e=>{
   const link=document.getElementById('waLink'); ext(link,url); link.hidden=false;
   try{ window.open(url,'_blank','noopener,noreferrer'); }catch(_){}
 });
+}
 document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
   const done=ok=>{b.textContent=ok?'Copiado':'Selecionado';setTimeout(()=>b.textContent='Copiar',1800)};
   const fallback=()=>{const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);
@@ -155,48 +163,26 @@ document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
   if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(b.dataset.copy).then(()=>done(true)).catch(fallback); else fallback();
 }));
 
-/* ================= ROTEAMENTO ================= */
-const routes=[...document.querySelectorAll('section.page')].map(s=>s.dataset.route);
-const nav=document.getElementById('nav'), menuT=document.getElementById('menuT');
+/* ================= NAVEGAÇÃO ================= */
+const nav=$('nav'), menuT=$('menuT');
 menuT.addEventListener('click',()=>{const o=nav.classList.toggle('open');menuT.setAttribute('aria-expanded',o)});
-let current='inicio';
-const ALIAS={faq:'duvidas',problemas:'inicio'};
-function go(){
-  const r=(location.hash||'#inicio').slice(1);
-  const route=routes.includes(r)?r:(ALIAS[r]||'inicio');
-  document.querySelectorAll('section.page').forEach(s=>s.classList.toggle('on',s.dataset.route===route));
-  nav.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+route));
-  nav.classList.remove('open');menuT.setAttribute('aria-expanded','false');
-  document.body.classList.toggle('inner',route!=='inicio');
-  if(r==='problemas') requestAnimationFrame(()=>document.getElementById('problemas').scrollIntoView({behavior:RM?'auto':'smooth'}));
-  else if(route!==current) window.scrollTo(0,0);
-  current=route;
-  document.title = route==='inicio'?'Conexa Network | Redes, Wi-Fi Corporativo e Suporte de TI em Rondônia':`${document.querySelector(`nav.main a[href="#${route}"]`).textContent} · Conexa Network`;
-  if(bg) bg.setRoute(route);
-  if(route==='projetos') topo.start(); else topo.stop();
-}
-window.addEventListener('hashchange',go);
-document.addEventListener('click',e=>{
-  const a=e.target.closest('a[href^="#"]'); if(!a) return;
-  const svc=a.dataset.svc; if(svc) setTimeout(()=>hlOSI(svc),0);
-  if(a.getAttribute('href')==='#problemas'){ if(location.hash==='#problemas'){e.preventDefault();document.getElementById('problemas').scrollIntoView({behavior:RM?'auto':'smooth'});} return; }
-  if(a.getAttribute('href')===location.hash || (a.getAttribute('href')==='#inicio'&&!location.hash)){
-    e.preventDefault(); nav.classList.remove('open'); menuT.setAttribute('aria-expanded','false');
-    window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
-  }
-});
+const current=PAGE;
+// Links antigos com âncora (#faq, #planos...) levam para as páginas novas.
+const OLD={faq:'/duvidas/',duvidas:'/duvidas/',servicos:'/servicos/',projetos:'/projetos/',planos:'/planos/',sobre:'/sobre/',contato:'/contato/'};
+if(PAGE==='inicio' && OLD[location.hash.slice(1)]) location.replace(OLD[location.hash.slice(1)]);
+if(PAGE==='servicos') window.addEventListener('hashchange',()=>{const id=location.hash.slice(1); if(svcById[id]) hlOSI(id);});
 
 /* ================= SPARKLINE ================= */
-const spark=document.getElementById('spark'), sctx=spark.getContext('2d');
+const spark=$('spark'), sctx=spark?spark.getContext('2d'):null;
 /* Latência real do visitante.
    PING_URL opcional: no servidor de produção, crie um endpoint leve (ex.: '/ping' que responde 204)
    e coloque o caminho aqui. Sem ele, usa o favicon do próprio site. */
 const PING_URL = null;
 const SAMPLES = 60, INTERVAL = 2000, TIMEOUT = 3000;
 const onWeb = /^https?:$/.test(location.protocol);
-const target = new URL(PING_URL || 'favicon.svg', location.href).href;
+const target = new URL(PING_URL || '/favicon.svg', location.href).href;
 const sameOrigin = true;
-if(!onWeb){
+if(!onWeb && spark){
   document.getElementById('mTarget').textContent = 'A medição funciona quando o site está publicado. Aberto como arquivo local, não há servidor para medir.';
   const lv=document.getElementById('liveTag'); lv.lastChild.textContent='disponível no site publicado'; lv.style.color='var(--muted)'; lv.querySelector('i').style.cssText='background:var(--muted);animation:none';
 }
@@ -204,7 +190,7 @@ let sdata=[], hist=[], warm=false;
 const fmt = (v,d=1)=>v.toFixed(d).replace('.',',');
 
 async function probe(){
-  if(document.hidden||!onWeb) return;
+  if(!spark||document.hidden||!onWeb) return;
   const ctrl = new AbortController(), timer = setTimeout(()=>ctrl.abort(), TIMEOUT);
   const url = target + (target.includes('?')?'&':'?') + '_=' + Date.now();
   const t0 = performance.now(); let ms = null;
@@ -243,6 +229,7 @@ function updateMetrics(last){
 function niceMax(v){ const s=[20,50,100,200,300,500,1000,2000,3000]; return s.find(x=>x>=v*1.15)||3000; }
 
 function drawSpark(){
+  if(!spark) return;
   const dpr=Math.min(devicePixelRatio,2), w=spark.clientWidth, h=spark.clientHeight;
   if(spark.width!==w*dpr){spark.width=w*dpr;spark.height=h*dpr;}
   sctx.setTransform(dpr,0,0,dpr,0,0); sctx.clearRect(0,0,w,h);
@@ -257,9 +244,10 @@ function drawSpark(){
   const lx=x(sdata.length-1), ly=y(sdata[sdata.length-1]); sctx.fillStyle='#22d3a6'; sctx.beginPath(); sctx.arc(lx,ly,3.5,0,7); sctx.fill();
 }
 function tickLinks(){
+  if(!linkRows) return;
   LINKS.forEach((l,i)=>{l.u=Math.max(8,Math.min(92,l.u+(Math.random()-.5)*8));document.getElementById('lb'+i).style.width=l.u+'%';document.getElementById('lv'+i).textContent=Math.round(l.u)+'%'});
 }
-drawSpark(); probe(); setInterval(probe,INTERVAL); if(!RM) setInterval(tickLinks,1200);
+if(spark){ drawSpark(); probe(); setInterval(probe,INTERVAL); if(!RM) setInterval(tickLinks,1200); }
 window.addEventListener('resize',drawSpark);
 
 /* ================= UTIL 3D ================= */
@@ -460,6 +448,7 @@ function topoFallback(){
   return {start(){},stop(){}};
 }
 const topo=(function(){
+  if(!$('topoStage')) return {start(){},stop(){}};
   if(!window.THREE) return topoFallback();
   const stage=document.getElementById('topoStage'), canvas=document.getElementById('topo3d'), lbls=document.getElementById('lbls');
   let renderer; try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});}catch(e){return topoFallback();}
@@ -582,5 +571,6 @@ const topo=(function(){
   };
 })();
 
-go();
+if(bg) bg.setRoute(PAGE);
+if(PAGE==='projetos') topo.start();
 })();

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; object-src 'none'; media-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Projetos de redes e cabeamento | Conexa Network</title>
+<meta name="description" content="Projetos reais de organização de rack, cabeamento estruturado, redes UniFi e roteadores MikroTik, e uma topologia de rede corporativa em 3D.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Projetos de redes e cabeamento | Conexa Network">
+<meta property="og:description" content="Projetos reais de organização de rack, cabeamento estruturado, redes UniFi e roteadores MikroTik, e uma topologia de rede corporativa em 3D.">
+<meta property="og:locale" content="pt_BR">
+<link rel="canonical" href="https://conexanetwork.com.br/projetos/">
+<meta property="og:url" content="https://conexanetwork.com.br/projetos/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body data-page="projetos" class="inner">
+<canvas id="bg3d" aria-hidden="true"></canvas>
+<div class="veil"></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="top-in">
+    <a class="logo" href="/" aria-label="Conexa Network, início">
+      <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-2.5h14V17"/></svg></span>CONEXA NETWORK
+    </a>
+    <button class="menu-t" id="menuT" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="main" id="nav">
+      <a href="/">Início</a>
+      <a href="/servicos/">Serviços</a>
+      <a href="/projetos/" class="on" aria-current="page">Projetos</a>
+      <a href="/planos/">Planos</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/duvidas/">Dúvidas</a>
+      <a href="/contato/">Contato</a>
+    </nav>
+    <a class="btn btn-p top-cta" href="/contato/" data-wpp="Olá! Vim pelo site e quero falar com um especialista sobre a rede da minha empresa.">Falar com especialista</a>
+  </div>
+</header>
+
+<main>
+<section class="page on" data-route="projetos">
+  <div class="band page-hero"><div class="band-in"><div class="head">
+    <div class="eyebrow">Projetos executados</div>
+    <h1>Do cabo ao equipamento, tudo pensado para funcionar.</h1>
+    <p class="lead">Ambientes reais montados pela equipe da Conexa Network.</p>
+  </div></div></div>
+  <div class="band" style="padding-top:20px"><div class="band-in">
+    <div class="gal">
+      <figure class="ph big"><img src="/images/projeto-1-rack-cabeamento.jpg" alt="Rack organizado com cabeamento estruturado" loading="lazy"><figcaption>Organização de rack e cabeamento</figcaption></figure>
+      <figure class="ph"><img src="/images/projeto-2-unifi.jpg" alt="Equipamento UniFi instalado" loading="lazy"><figcaption>Rede UniFi</figcaption></figure>
+      <figure class="ph"><img src="/images/projeto-3-mikrotik.jpg" alt="Roteador MikroTik instalado" loading="lazy"><figcaption>Roteador MikroTik</figcaption></figure>
+      <figure class="ph"><img src="/images/projeto-4-antes.jpg" alt="Rack antes da organização" loading="lazy"><figcaption>Antes da organização</figcaption></figure>
+      <figure class="ph"><img src="/images/projeto-5-depois.jpg" alt="Rack depois da organização" loading="lazy"><figcaption>Depois da organização</figcaption></figure>
+    </div>
+
+    <div class="head" style="margin-top:88px">
+      <div class="eyebrow">Topologia em 3D</div>
+      <h2>Como uma rede corporativa é montada.</h2>
+      <p class="lead">Modelo de topologia que usamos em empresas: dois links de internet, firewall MikroTik, switch central, VLANs separadas e Wi-Fi UniFi. Arraste para girar, clique nos equipamentos e simule a queda de um link.</p>
+    </div>
+    <div class="topo">
+      <div class="topo-stage" id="topoStage">
+        <canvas id="topo3d"></canvas>
+        <div id="lbls"></div>
+        <span class="topo-hint">Arraste para girar · clique em um equipamento</span>
+      </div>
+      <div class="topo-side">
+        <div class="seg" role="group" aria-label="Cenário">
+          <button type="button" id="mBal" aria-pressed="true">Dois links ativos</button>
+          <button type="button" id="mFail" aria-pressed="false">Simular queda</button>
+        </div>
+        <div class="status ok" id="topoStatus">Balanceamento ativo: tráfego dividido entre Link 1 e Link 2.</div>
+        <div class="panel" id="nodeInfo">
+          <h3>Firewall MikroTik</h3>
+          <p>Porta de entrada da rede. Aplica políticas de acesso, bloqueios, VPN para usuários e decide por qual link o tráfego sai.</p>
+        </div>
+        <p class="note">Topologia ilustrativa. Cada projeto é dimensionado a partir do diagnóstico.</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div><b class="foot-brand">CONEXA NETWORK · © <span id="ano">2026</span></b><br>Infraestrutura de TI, redes e Wi-Fi corporativo · Atendimento remoto e presencial em Rondônia<br>Suporte 1: (69) 99364-5405 · Suporte 2: (65) 99618-6913 · Região de atendimento: Rondônia</div>
+    <nav><a href="/servicos/">Serviços</a><a href="/projetos/">Projetos</a><a href="/planos/">Planos</a><a href="/duvidas/">Dúvidas</a><a href="#" data-fb>Facebook</a><a href="tel:+5569993645405">Ligar</a><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista.">WhatsApp</a></nav>
+  </div>
+</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="/assets/js/world-data.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

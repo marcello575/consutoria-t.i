@@ -12,39 +12,41 @@
 <meta property="og:title" content="Conexa Network | Redes, Wi-Fi Corporativo e Suporte de TI em Rondônia">
 <meta property="og:description" content="Projetamos, implantamos e monitoramos redes corporativas, Wi-Fi profissional e firewall, com suporte remoto e presencial.">
 <meta property="og:locale" content="pt_BR">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://conexanetwork.com.br/">
+<meta property="og:url" content="https://conexanetwork.com.br/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Conexa Network", "url": "https://conexanetwork.com.br/", "description": "Projeto, implantação e gestão de redes corporativas, Wi-Fi profissional, firewall e monitoramento, com suporte remoto e presencial.", "telephone": "+55-69-99364-5405", "email": "contato@conexanetwork.com.br", "areaServed": {"@type": "State", "name": "Rondônia"}, "sameAs": ["https://www.facebook.com/share/1C8AF8hphh/"], "knowsAbout": ["Redes corporativas", "Wi-Fi profissional", "MikroTik", "UniFi", "Firewall", "Zabbix", "Grafana", "Cabeamento estruturado"]}</script>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/style.css">
 </head>
-<body>
+<body data-page="inicio">
 <canvas id="bg3d" aria-hidden="true"></canvas>
 <div class="veil"></div>
 
 <div class="wrap">
 <header class="top">
   <div class="top-in">
-    <a class="logo" href="#inicio" aria-label="Conexa Network, início">
+    <a class="logo" href="/" aria-label="Conexa Network, início">
       <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-2.5h14V17"/></svg></span>CONEXA NETWORK
     </a>
     <button class="menu-t" id="menuT" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="main" id="nav">
-      <a href="#inicio">Início</a>
-      <a href="#servicos">Serviços</a>
-      <a href="#projetos">Projetos</a>
-      <a href="#planos">Planos</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#duvidas">Dúvidas</a>
-      <a href="#contato">Contato</a>
+      <a href="/" class="on" aria-current="page">Início</a>
+      <a href="/servicos/">Serviços</a>
+      <a href="/projetos/">Projetos</a>
+      <a href="/planos/">Planos</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/duvidas/">Dúvidas</a>
+      <a href="/contato/">Contato</a>
     </nav>
-    <a class="btn btn-p top-cta" href="#contato" data-wpp="Olá! Vim pelo site e quero falar com um especialista sobre a rede da minha empresa.">Falar com especialista</a>
+    <a class="btn btn-p top-cta" href="/contato/" data-wpp="Olá! Vim pelo site e quero falar com um especialista sobre a rede da minha empresa.">Falar com especialista</a>
   </div>
 </header>
 
 <main>
-<!-- ================= INÍCIO ================= -->
-<section class="page" data-route="inicio">
+<section class="page on" data-route="inicio">
   <div class="band hero">
     <div class="band-in">
       <div class="hero-copy">
@@ -52,7 +54,7 @@
         <h1>A rede da sua empresa <em>estável, segura e monitorada.</em></h1>
         <p class="lead">Sem quedas, sem improviso. Projetamos, implantamos e gerenciamos redes corporativas, Wi-Fi profissional, firewall e monitoramento. Um único time técnico cuidando de tudo, do cabo ao equipamento.</p>
         <div class="row">
-          <a class="btn btn-p" href="#contato" data-wpp="Olá! Quero um diagnóstico da rede da minha empresa.">Solicitar diagnóstico</a>
+          <a class="btn btn-p" href="/contato/" data-wpp="Olá! Quero um diagnóstico da rede da minha empresa.">Solicitar diagnóstico</a>
           <a class="btn btn-g" href="#problemas">Identificar meu problema</a>
         </div>
         <div class="facts">
@@ -109,7 +111,7 @@
         <div class="panel result">
           <h3 id="diagTitle">0 problemas selecionados</h3>
           <ul id="diagList"><li><span class="k">--</span><div><b>Aguardando sintomas</b><span>As frentes recomendadas aparecem aqui.</span></div></li></ul>
-          <a class="btn btn-p" href="#contato" id="diagCta" style="justify-self:start">Enviar meu diagnóstico</a>
+          <a class="btn btn-p" href="/contato/" id="diagCta" style="justify-self:start">Enviar meu diagnóstico</a>
         </div>
       </div>
     </div>
@@ -167,162 +169,7 @@
   </div>
 
   <div class="band"><div class="band-in">
-    <div class="cta"><h2>Sua rede pode funcionar de verdade. Vamos começar pelo diagnóstico?</h2><a class="btn btn-p" href="#contato">Falar com especialista</a></div>
-  </div></div>
-</section>
-
-<!-- ================= SERVIÇOS ================= -->
-<section class="page" data-route="servicos">
-  <div class="band page-hero"><div class="band-in"><div class="head">
-    <div class="eyebrow">Serviços</div>
-    <h1>Cada serviço atua em uma camada da rede.</h1>
-    <p class="lead">Passe o cursor (ou toque) em um serviço para ver em quais camadas do modelo OSI ele trabalha.</p>
-  </div></div></div>
-  <div class="band" style="padding-top:20px"><div class="band-in">
-    <div class="svc-layout">
-      <div class="svc-list" id="svcList"></div>
-      <div class="osi-wrap">
-        <div class="osi"><div class="osi-stack" id="osi"></div></div>
-        <div class="osi-cap"><span class="mono muted" style="font-size:12px" id="osiCap">Modelo OSI · 7 camadas</span></div>
-      </div>
-    </div>
-    <p class="muted" style="margin-top:28px">Não encontrou o que precisa? <a href="#contato" data-wpp="Olá! Vim pelo site e tenho uma dúvida sobre os serviços.">Pergunte ao time</a>.</p>
-  </div></div>
-</section>
-
-<!-- ================= PROJETOS ================= -->
-<section class="page" data-route="projetos">
-  <div class="band page-hero"><div class="band-in"><div class="head">
-    <div class="eyebrow">Projetos executados</div>
-    <h1>Do cabo ao equipamento, tudo pensado para funcionar.</h1>
-    <p class="lead">Ambientes reais montados pela equipe da Conexa Network.</p>
-  </div></div></div>
-  <div class="band" style="padding-top:20px"><div class="band-in">
-    <div class="gal">
-      <figure class="ph big"><img src="images/projeto-1-rack-cabeamento.jpg" alt="Rack organizado com cabeamento estruturado" loading="lazy"><figcaption>Organização de rack e cabeamento</figcaption></figure>
-      <figure class="ph"><img src="images/projeto-2-unifi.jpg" alt="Equipamento UniFi instalado" loading="lazy"><figcaption>Rede UniFi</figcaption></figure>
-      <figure class="ph"><img src="images/projeto-3-mikrotik.jpg" alt="Roteador MikroTik instalado" loading="lazy"><figcaption>Roteador MikroTik</figcaption></figure>
-      <figure class="ph"><img src="images/projeto-4-antes.jpg" alt="Rack antes da organização" loading="lazy"><figcaption>Antes da organização</figcaption></figure>
-      <figure class="ph"><img src="images/projeto-5-depois.jpg" alt="Rack depois da organização" loading="lazy"><figcaption>Depois da organização</figcaption></figure>
-    </div>
-
-    <div class="head" style="margin-top:88px">
-      <div class="eyebrow">Topologia em 3D</div>
-      <h2>Como uma rede corporativa é montada.</h2>
-      <p class="lead">Modelo de topologia que usamos em empresas: dois links de internet, firewall MikroTik, switch central, VLANs separadas e Wi-Fi UniFi. Arraste para girar, clique nos equipamentos e simule a queda de um link.</p>
-    </div>
-    <div class="topo">
-      <div class="topo-stage" id="topoStage">
-        <canvas id="topo3d"></canvas>
-        <div id="lbls"></div>
-        <span class="topo-hint">Arraste para girar · clique em um equipamento</span>
-      </div>
-      <div class="topo-side">
-        <div class="seg" role="group" aria-label="Cenário">
-          <button type="button" id="mBal" aria-pressed="true">Dois links ativos</button>
-          <button type="button" id="mFail" aria-pressed="false">Simular queda</button>
-        </div>
-        <div class="status ok" id="topoStatus">Balanceamento ativo: tráfego dividido entre Link 1 e Link 2.</div>
-        <div class="panel" id="nodeInfo">
-          <h3>Firewall MikroTik</h3>
-          <p>Porta de entrada da rede. Aplica políticas de acesso, bloqueios, VPN para usuários e decide por qual link o tráfego sai.</p>
-        </div>
-        <p class="note">Topologia ilustrativa. Cada projeto é dimensionado a partir do diagnóstico.</p>
-      </div>
-    </div>
-  </div></div>
-</section>
-
-<!-- ================= PLANOS ================= -->
-<section class="page" data-route="planos">
-  <div class="band page-hero"><div class="band-in"><div class="head">
-    <div class="eyebrow">Planos de suporte mensal</div>
-    <h1>Escolha o nível de acompanhamento da sua rede.</h1>
-    <p class="lead">Cada proposta é montada para o tamanho da sua operação. Fale com o time e receba a sua.</p>
-  </div></div></div>
-  <div class="band" style="padding-top:30px"><div class="band-in">
-    <div class="plans" id="plans"></div>
-    <div class="tbl-w"><table id="cmp"></table></div>
-    <div class="cta" style="margin-top:40px"><h2>Não sabe qual escolher? Fale com o time e indicamos o plano certo.</h2><a class="btn btn-p" href="#contato" data-wpp="Olá! Quero ajuda para escolher o plano de suporte certo para a minha empresa.">Falar com o time</a></div>
-  </div></div>
-</section>
-
-<!-- ================= SOBRE ================= -->
-<section class="page" data-route="sobre">
-  <div class="band page-hero"><div class="band-in"><div class="head">
-    <div class="eyebrow">Sobre a Conexa</div>
-    <h1>Um único time para toda a sua infraestrutura.</h1>
-  </div></div></div>
-  <div class="band" style="padding-top:30px"><div class="band-in">
-    <div class="about">
-      <div>
-        <p class="big">São mais de seis anos de experiência em redes de provedores e empresas, com especialistas dedicados à sua rede.</p>
-        <p class="lead" style="margin-top:22px">Atendemos empresas em Rondônia com suporte remoto imediato e visita técnica agendada. O mesmo time cuida do cabo, do Wi-Fi, do firewall, dos servidores, das câmeras e do monitoramento.</p>
-        <div class="stack">
-          <span class="tag">MikroTik</span><span class="tag">UniFi / Ubiquiti</span><span class="tag">Zabbix</span><span class="tag">Grafana</span><span class="tag">VPN</span><span class="tag">VLAN</span><span class="tag">Failover</span><span class="tag">Câmeras IP</span>
-        </div>
-      </div>
-      <div class="princ">
-        <div class="panel"><span class="k">A</span><div><h3>Diagnóstico antes de qualquer proposta</h3><p>Primeiro entendemos a rede. Depois propomos o que ela precisa.</p></div></div>
-        <div class="panel"><span class="k">B</span><div><h3>Solução documentada</h3><p>Infraestrutura documentada a cada serviço. A rede deixa de depender da memória de uma pessoa.</p></div></div>
-        <div class="panel"><span class="k">C</span><div><h3>Retorno em até 24h úteis</h3><p>Remoto quando resolve, presencial quando precisa.</p></div></div>
-      </div>
-    </div>
-  </div></div>
-</section>
-
-<!-- ================= DÚVIDAS ================= -->
-<section class="page" data-route="duvidas">
-  <div class="band page-hero"><div class="band-in"><div class="head">
-    <div class="eyebrow">Dúvidas</div>
-    <h1>Perguntas que a gente sempre recebe.</h1>
-  </div></div></div>
-  <div class="band" style="padding-top:30px"><div class="band-in">
-    <div class="faq">
-      <details open><summary>Vocês atendem empresas de qualquer porte?</summary><p>Sim. Atendemos desde pequenos escritórios até empresas com infraestrutura mais robusta, sempre com solução proporcional ao porte do negócio.</p></details>
-      <details><summary>O atendimento remoto resolve a maioria dos casos?</summary><p>Muitos problemas de configuração e suporte são resolvidos remotamente. Quando o caso exige presença física, como cabeamento ou instalação de câmeras, agendamos a visita.</p></details>
-      <details><summary>Vocês trabalham com contrato de manutenção mensal?</summary><p>Sim. Montamos um plano de acompanhamento contínuo sob medida para a rotina da sua empresa. Fale com a gente para receber uma proposta.</p></details>
-      <details><summary>Quais marcas de equipamento vocês configuram?</summary><p>Trabalhamos principalmente com MikroTik e UniFi (Ubiquiti), além de câmeras IP e servidores de diferentes fabricantes.</p></details>
-      <details><summary>Vocês fazem diagnóstico antes de enviar proposta?</summary><p>Sim. O diagnóstico vem antes de qualquer proposta, para que a solução seja proporcional à sua operação.</p></details>
-      <details><summary>Como funciona a internet sem parada?</summary><p>Usamos mais de um link de internet com failover e balanceamento. Se um link cai, o tráfego passa automaticamente para o outro. Veja a simulação na página Projetos.</p></details>
-      <details><summary>Que ferramentas vocês usam no monitoramento?</summary><p>Zabbix e Grafana, com alertas de indisponibilidade e relatórios mensais.</p></details>
-    </div>
-  </div></div>
-</section>
-
-<!-- ================= CONTATO ================= -->
-<section class="page" data-route="contato">
-  <div class="band page-hero"><div class="band-in"><div class="head">
-    <div class="eyebrow">Fale com a gente</div>
-    <h1>Sua rede pode funcionar de verdade. Vamos começar pelo diagnóstico?</h1>
-    <p class="lead">Preencha os dados e a conversa já abre no WhatsApp com tudo explicado. Se preferir, use os contatos ao lado.</p>
-  </div></div></div>
-  <div class="band" style="padding-top:30px"><div class="band-in">
-    <div class="contact">
-      <div class="panel">
-        <form id="form" novalidate>
-          <div class="f"><label for="fNome">Seu nome</label><input id="fNome" name="nome" autocomplete="name" maxlength="80" required></div>
-          <div class="f"><label for="fEmp">Empresa</label><input id="fEmp" name="empresa" autocomplete="organization" maxlength="100" required></div>
-          <div class="f"><label for="fCid">Cidade</label><input id="fCid" name="cidade" autocomplete="address-level2" maxlength="60"></div>
-          <div class="f"><label for="fFunc">Funcionários</label>
-            <select id="fFunc" name="porte"><option>1 a 10</option><option>11 a 50</option><option>51 a 200</option><option>Mais de 200</option></select></div>
-          <div class="f full"><label for="fNec">Do que você precisa?</label>
-            <select id="fNec" name="servico"><option>Resolver um problema na rede</option><option>Projeto de Wi-Fi</option><option>Cabeamento e organização</option><option>Firewall e segurança</option><option>Instalação de câmeras</option><option>Redundância de internet</option><option>Suporte técnico</option><option>Plano de suporte mensal</option></select></div>
-          <div class="f full"><label for="fDesc">Conte rapidamente o que está acontecendo</label><textarea id="fDesc" name="msg" maxlength="500" placeholder="Ex.: a internet cai todo dia à tarde e o Wi-Fi não chega na sala de reuniões."></textarea></div>
-          <p class="err-msg" id="fErr" hidden>Preencha seu nome e a empresa para continuar.</p>
-          <div class="f full" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center"><button class="btn btn-p" type="submit">Enviar e falar com especialista</button><a class="btn btn-g" id="waLink" href="#" hidden>Não abriu? Clique aqui</a></div>
-          <p class="note f full">Seus dados são usados apenas para o atendimento.</p>
-        </form>
-      </div>
-      <div class="chan">
-        <div class="panel"><span class="tag" style="justify-self:start">Suporte 1 · WhatsApp</span><div class="phone"><b>(69) 99364-5405</b><button type="button" class="copy" data-copy="(69) 99364-5405">Copiar</button></div>
-          <div class="row-links"><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista." data-num="1">Abrir WhatsApp</a><a href="tel:+5569993645405">Ligar agora</a></div></div>
-        <div class="panel"><span class="tag" style="justify-self:start">Suporte 2 · WhatsApp</span><div class="phone"><b>(65) 99618-6913</b><button type="button" class="copy" data-copy="(65) 99618-6913">Copiar</button></div>
-          <div class="row-links"><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista." data-num="2">Abrir WhatsApp</a></div></div>
-        <div class="panel"><span class="tag" style="justify-self:start">E-mail</span><a class="mail" data-mail="contato|conexanetwork.com.br"><span class="mail-txt">contato [arroba] conexanetwork.com.br</span></a></div>
-        <div class="panel"><span class="tag" style="justify-self:start">Redes sociais</span><a href="#" data-fb>Siga a Conexa no Facebook</a></div>
-      </div>
-    </div>
+    <div class="cta"><h2>Sua rede pode funcionar de verdade. Vamos começar pelo diagnóstico?</h2><a class="btn btn-p" href="/contato/">Falar com especialista</a></div>
   </div></div>
 </section>
 </main>
@@ -330,13 +177,13 @@
 <footer>
   <div class="foot">
     <div><b class="foot-brand">CONEXA NETWORK · © <span id="ano">2026</span></b><br>Infraestrutura de TI, redes e Wi-Fi corporativo · Atendimento remoto e presencial em Rondônia<br>Suporte 1: (69) 99364-5405 · Suporte 2: (65) 99618-6913 · Região de atendimento: Rondônia</div>
-    <nav><a href="#servicos">Serviços</a><a href="#projetos">Projetos</a><a href="#planos">Planos</a><a href="#duvidas">Dúvidas</a><a href="#" data-fb>Facebook</a><a href="tel:+5569993645405">Ligar</a><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista.">WhatsApp</a></nav>
+    <nav><a href="/servicos/">Serviços</a><a href="/projetos/">Projetos</a><a href="/planos/">Planos</a><a href="/duvidas/">Dúvidas</a><a href="#" data-fb>Facebook</a><a href="tel:+5569993645405">Ligar</a><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista.">WhatsApp</a></nav>
   </div>
 </footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-<script src="assets/js/world-data.js" defer></script>
-<script src="assets/js/main.js" defer></script>
+<script src="/assets/js/world-data.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
 </body>
 </html>

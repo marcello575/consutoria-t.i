@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; object-src 'none'; media-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Contato | Conexa Network</title>
+<meta name="description" content="Fale com um especialista da Conexa Network pelo WhatsApp (69) 99364-5405 ou (65) 99618-6913. Atendimento em Rondônia.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contato | Conexa Network">
+<meta property="og:description" content="Fale com um especialista da Conexa Network pelo WhatsApp (69) 99364-5405 ou (65) 99618-6913. Atendimento em Rondônia.">
+<meta property="og:locale" content="pt_BR">
+<link rel="canonical" href="https://conexanetwork.com.br/contato/">
+<meta property="og:url" content="https://conexanetwork.com.br/contato/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body data-page="contato" class="inner">
+<canvas id="bg3d" aria-hidden="true"></canvas>
+<div class="veil"></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="top-in">
+    <a class="logo" href="/" aria-label="Conexa Network, início">
+      <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-2.5h14V17"/></svg></span>CONEXA NETWORK
+    </a>
+    <button class="menu-t" id="menuT" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="main" id="nav">
+      <a href="/">Início</a>
+      <a href="/servicos/">Serviços</a>
+      <a href="/projetos/">Projetos</a>
+      <a href="/planos/">Planos</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/duvidas/">Dúvidas</a>
+      <a href="/contato/" class="on" aria-current="page">Contato</a>
+    </nav>
+    <a class="btn btn-p top-cta" href="/contato/" data-wpp="Olá! Vim pelo site e quero falar com um especialista sobre a rede da minha empresa.">Falar com especialista</a>
+  </div>
+</header>
+
+<main>
+<section class="page on" data-route="contato">
+  <div class="band page-hero"><div class="band-in"><div class="head">
+    <div class="eyebrow">Fale com a gente</div>
+    <h1>Sua rede pode funcionar de verdade. Vamos começar pelo diagnóstico?</h1>
+    <p class="lead">Preencha os dados e a conversa já abre no WhatsApp com tudo explicado. Se preferir, use os contatos ao lado.</p>
+  </div></div></div>
+  <div class="band" style="padding-top:30px"><div class="band-in">
+    <div class="contact">
+      <div class="panel">
+        <form id="form" novalidate>
+          <div class="f"><label for="fNome">Seu nome</label><input id="fNome" name="nome" autocomplete="name" maxlength="80" required></div>
+          <div class="f"><label for="fEmp">Empresa</label><input id="fEmp" name="empresa" autocomplete="organization" maxlength="100" required></div>
+          <div class="f"><label for="fCid">Cidade</label><input id="fCid" name="cidade" autocomplete="address-level2" maxlength="60"></div>
+          <div class="f"><label for="fFunc">Funcionários</label>
+            <select id="fFunc" name="porte"><option>1 a 10</option><option>11 a 50</option><option>51 a 200</option><option>Mais de 200</option></select></div>
+          <div class="f full"><label for="fNec">Do que você precisa?</label>
+            <select id="fNec" name="servico"><option>Resolver um problema na rede</option><option>Projeto de Wi-Fi</option><option>Cabeamento e organização</option><option>Firewall e segurança</option><option>Instalação de câmeras</option><option>Redundância de internet</option><option>Suporte técnico</option><option>Plano de suporte mensal</option></select></div>
+          <div class="f full"><label for="fDesc">Conte rapidamente o que está acontecendo</label><textarea id="fDesc" name="msg" maxlength="500" placeholder="Ex.: a internet cai todo dia à tarde e o Wi-Fi não chega na sala de reuniões."></textarea></div>
+          <p class="err-msg" id="fErr" hidden>Preencha seu nome e a empresa para continuar.</p>
+          <div class="f full" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center"><button class="btn btn-p" type="submit">Enviar e falar com especialista</button><a class="btn btn-g" id="waLink" href="#" hidden>Não abriu? Clique aqui</a></div>
+          <p class="note f full">Seus dados são usados apenas para o atendimento.</p>
+        </form>
+      </div>
+      <div class="chan">
+        <div class="panel"><span class="tag" style="justify-self:start">Suporte 1 · WhatsApp</span><div class="phone"><b>(69) 99364-5405</b><button type="button" class="copy" data-copy="(69) 99364-5405">Copiar</button></div>
+          <div class="row-links"><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista." data-num="1">Abrir WhatsApp</a><a href="tel:+5569993645405">Ligar agora</a></div></div>
+        <div class="panel"><span class="tag" style="justify-self:start">Suporte 2 · WhatsApp</span><div class="phone"><b>(65) 99618-6913</b><button type="button" class="copy" data-copy="(65) 99618-6913">Copiar</button></div>
+          <div class="row-links"><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista." data-num="2">Abrir WhatsApp</a></div></div>
+        <div class="panel"><span class="tag" style="justify-self:start">E-mail</span><a class="mail" data-mail="contato|conexanetwork.com.br"><span class="mail-txt">contato [arroba] conexanetwork.com.br</span></a></div>
+        <div class="panel"><span class="tag" style="justify-self:start">Redes sociais</span><a href="#" data-fb>Siga a Conexa no Facebook</a></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div><b class="foot-brand">CONEXA NETWORK · © <span id="ano">2026</span></b><br>Infraestrutura de TI, redes e Wi-Fi corporativo · Atendimento remoto e presencial em Rondônia<br>Suporte 1: (69) 99364-5405 · Suporte 2: (65) 99618-6913 · Região de atendimento: Rondônia</div>
+    <nav><a href="/servicos/">Serviços</a><a href="/projetos/">Projetos</a><a href="/planos/">Planos</a><a href="/duvidas/">Dúvidas</a><a href="#" data-fb>Facebook</a><a href="tel:+5569993645405">Ligar</a><a href="#" data-wpp="Olá! Vim pelo site e quero falar com um especialista.">WhatsApp</a></nav>
+  </div>
+</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="/assets/js/world-data.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>
