@@ -9,6 +9,7 @@ index.html            páginas do site (rotas por âncora: #inicio, #servicos, #
 favicon.svg           ícone da aba (também usado para medir a latência do visitante)
 assets/css/style.css  estilos
 assets/js/main.js     conteúdo dinâmico, cenas 3D e interações
+assets/js/world-data.js  mapa-múndi compactado do globo (Natural Earth 1:110m, domínio público)
 images/               fotos dos projetos (pasta já existente no repositório)
 ```
 

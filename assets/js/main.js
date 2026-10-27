@@ -281,43 +281,113 @@ if(window.THREE && !LOW){ try{ bg=(function(){
   const globe=new THREE.Group(); world.add(globe);
   const tex=dotTexture(), R=3;
 
-  // nós (esfera de Fibonacci)
-  const N=MOBILE?170:340, pts=[];
-  for(let i=0;i<N;i++){const y=1-(i/(N-1))*2, r=Math.sqrt(1-y*y), th=i*2.39996323; pts.push(new THREE.Vector3(Math.cos(th)*r*R,y*R,Math.sin(th)*r*R));}
-  const pg=new THREE.BufferGeometry().setFromPoints(pts);
-  globe.add(new THREE.Points(pg,new THREE.PointsMaterial({size:.09,map:tex,color:ACC,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending})));
+  const D = window.WORLD_DATA;
+  // lat/lon (graus) -> ponto na esfera; longitude 0 voltada para a câmera
+  const LL=(lat,lon,r)=>{const f=lat*Math.PI/180,l=lon*Math.PI/180,c=Math.cos(f);return new THREE.Vector3(r*c*Math.sin(l),r*Math.sin(f),r*c*Math.cos(l));};
 
-  // arestas (3 vizinhos mais próximos)
-  const seg=[], seen=new Set();
-  pts.forEach((p,i)=>{
-    pts.map((q,j)=>[j,p.distanceToSquared(q)]).filter(a=>a[0]!==i).sort((a,b)=>a[1]-b[1]).slice(0,3).forEach(([j])=>{
-      const k=i<j?i+'-'+j:j+'-'+i; if(seen.has(k))return; seen.add(k); seg.push(p,pts[j]);
+  // luz para dar volume ao relevo
+  scene.add(new THREE.AmbientLight(0x7fb6d8,.55));
+  const sun=new THREE.DirectionalLight(0xffffff,.95); sun.position.set(-6,5,8); scene.add(sun);
+
+  // oceano: núcleo escuro que também esconde o lado de trás
+  const core=new THREE.Mesh(new THREE.SphereGeometry(R*.995,64,64),new THREE.MeshBasicMaterial({color:0x08111f}));
+  core.renderOrder=-1; globe.add(core);
+
+  // grade de latitude/longitude discreta
+  const grat=[];
+  for(let lat=-60;lat<=60;lat+=30){for(let lon=-180;lon<180;lon+=3){grat.push(LL(lat,lon,R*1.003),LL(lat,lon+3,R*1.003));}}
+  for(let lon=-180;lon<180;lon+=30){for(let lat=-87;lat<87;lat+=3){grat.push(LL(lat,lon,R*1.003),LL(lat+3,lon,R*1.003));}}
+  globe.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(grat),new THREE.LineBasicMaterial({color:ACC2,transparent:true,opacity:.07})));
+
+  // relevo: uma coluna por célula de terra (1° no computador, 2° no celular)
+  const STEP=MOBILE?2:1, cells=[];
+  if(D){
+    D.mask.split(';').forEach((row,y)=>{
+      if(y%STEP) return; let x=0, land=false;
+      for(const r of row.split(',')){const n=parseInt(r,36); if(land){for(let i=x;i<x+n;i++) if(i%STEP===0) cells.push([89.5-y,i-179.5]);} x+=n; land=!land;}
     });
+  }
+  const relief=(lat,lon)=>{ // relevo estilizado e contínuo
+    const a=Math.sin(lat*.19+lon*.07)*Math.cos(lon*.13-lat*.05), b=Math.sin(lat*.47+1.3)*Math.sin(lon*.39+.7);
+    return Math.max(0,Math.min(1,.45+.35*a+.2*b));
+  };
+  const cellW=(Math.PI/180)*R*STEP*.86;
+  const boxes=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),
+    new THREE.MeshStandardMaterial({color:0xffffff,roughness:.55,metalness:.15,emissive:0x0b3b3a,emissiveIntensity:.35}), Math.max(1,cells.length));
+  const up=new THREE.Vector3(0,1,0), m4=new THREE.Matrix4(), q=new THREE.Quaternion(), sc=new THREE.Vector3(), col=new THREE.Color();
+  const cLow=new THREE.Color(0x0f4a5a), cMid=new THREE.Color(0x22d3a6), cHigh=new THREE.Color(0x8ff5dc);
+  cells.forEach(([lat,lon],i)=>{
+    const h=.025+relief(lat,lon)*.11, n=LL(lat,lon,1);
+    q.setFromUnitVectors(up,n);
+    sc.set(cellW*Math.max(.25,Math.cos(lat*Math.PI/180)),h,cellW);
+    m4.compose(n.clone().multiplyScalar(R+h/2),q,sc); boxes.setMatrixAt(i,m4);
+    const k=relief(lat,lon); col.copy(cLow).lerp(cMid,Math.min(1,k*1.4)); if(k>.75) col.lerp(cHigh,(k-.75)*2.4);
+    boxes.setColorAt(i,col);
   });
-  globe.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(seg),new THREE.LineBasicMaterial({color:ACC,transparent:true,opacity:.16})));
+  boxes.count=cells.length; boxes.instanceMatrix.needsUpdate=true; if(boxes.instanceColor) boxes.instanceColor.needsUpdate=true;
+  globe.add(boxes);
 
-  // núcleo que oculta o lado de trás
-  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R*.985,48,48),new THREE.MeshBasicMaterial({color:0x070b14,transparent:true,opacity:.82})));
-  // halo
-  const halo=new THREE.Mesh(new THREE.SphereGeometry(R*1.18,48,48),new THREE.ShaderMaterial({
+  // fronteiras entre países, acima do relevo
+  if(D){
+    const bp=[], RB=R+.15;
+    D.borders.split(';').forEach(line=>{
+      let px=null,py=null,prev=null;
+      line.split(',').forEach((tok,i)=>{
+        const [u,v]=tok.split('.').map(t=>parseInt(t,36));
+        if(i===0){px=u;py=v;} else {px+=u;py+=v;}
+        const cur={lat:py/2,lon:px/2};
+        if(prev){
+          const d=Math.max(Math.abs(cur.lat-prev.lat),Math.abs(cur.lon-prev.lon)), n=Math.max(1,Math.ceil(d/1.5));
+          for(let k=0;k<n;k++){const t0=k/n,t1=(k+1)/n;
+            bp.push(LL(prev.lat+(cur.lat-prev.lat)*t0,prev.lon+(cur.lon-prev.lon)*t0,RB),LL(prev.lat+(cur.lat-prev.lat)*t1,prev.lon+(cur.lon-prev.lon)*t1,RB));}
+        }
+        prev=cur;
+      });
+    });
+    globe.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(bp),new THREE.LineBasicMaterial({color:0xbffbe9,transparent:true,opacity:.55})));
+  }
+
+  // halo atmosférico
+  const halo=new THREE.Mesh(new THREE.SphereGeometry(R*1.16,48,48),new THREE.ShaderMaterial({
     transparent:true,side:THREE.BackSide,depthWrite:false,blending:THREE.AdditiveBlending,
     vertexShader:'varying vec3 vN;void main(){vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
-    fragmentShader:'varying vec3 vN;void main(){float i=pow(.72-dot(vN,vec3(0,0,1.)),3.);gl_FragColor=vec4(.17,.62,.85,1.)*i*.9;}'
+    fragmentShader:'varying vec3 vN;void main(){float i=pow(.72-dot(vN,vec3(0,0,1.)),3.);gl_FragColor=vec4(.13,.72,.75,1.)*i*.6;}'
   })); world.add(halo);
 
-  // hubs pulsantes
-  const hubs=[]; const hubMat=new THREE.SpriteMaterial({map:tex,color:0xffffff,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending});
-  for(let i=0;i<12;i++){const s=new THREE.Sprite(hubMat.clone()); s.position.copy(pts[(i*29+7)%N]).multiplyScalar(1.01); s.userData.ph=Math.random()*6; globe.add(s); hubs.push(s);}
+  // cidades e base da Conexa (Porto Velho, RO)
+  const CITIES=[[-8.76,-63.9],[-15.6,-56.1],[-23.55,-46.63],[-22.9,-43.2],[-15.8,-47.9],[-3.1,-60.0],[-34.6,-58.4],[-33.45,-70.67],[4.71,-74.07],[19.43,-99.13],[40.71,-74.0],[34.05,-118.24],[41.88,-87.63],[43.65,-79.38],
+    [51.5,-0.12],[50.11,8.68],[48.86,2.35],[40.42,-3.7],[55.75,37.62],[52.52,13.4],[30.04,31.24],[6.52,3.38],[-26.2,28.05],[-1.29,36.82],[25.2,55.27],[19.08,72.88],[28.61,77.2],
+    [1.35,103.82],[22.3,114.17],[31.23,121.47],[39.9,116.4],[35.68,139.69],[37.57,126.98],[-33.87,151.21],[-37.81,144.96],[14.6,120.98],[-6.2,106.85],[41.0,28.98],[59.33,18.07],[64.14,-21.9]];
+  const cityPos=CITIES.map(([a,b])=>LL(a,b,R+.16));
+  globe.add(new THREE.Points(new THREE.BufferGeometry().setFromPoints(cityPos),new THREE.PointsMaterial({size:.12,map:tex,color:0xd9fff4,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending})));
+  const home=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,color:ACC,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
+  home.position.copy(LL(-8.76,-63.9,R+.2)); globe.add(home);
 
-  // arcos de longa distância + pacotes
-  const arcs=[];
-  for(let i=0;i<(MOBILE?8:14);i++){
-    const a=hubs[i%12].position, b=hubs[(i*5+3)%12].position; if(a.distanceTo(b)<2)continue;
-    const mid=a.clone().add(b).multiplyScalar(.5).normalize().multiplyScalar(R*1.55);
-    const curve=new THREE.QuadraticBezierCurve3(a.clone(),mid,b.clone());
-    globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(60)),new THREE.LineBasicMaterial({color:ACC,transparent:true,opacity:.35})));
-    const pk=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,color:0xffffff,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
-    pk.scale.setScalar(.22); globe.add(pk); arcs.push({curve,pk,t:Math.random(),v:.0025+Math.random()*.004});
+  // arcos de tráfego com rastro luminoso + impacto no destino
+  const SEG=64, arcCols=[new THREE.Color(ACC),new THREE.Color(ACC),new THREE.Color(ACC),new THREE.Color(ACC2),new THREE.Color(0xffb04a)];
+  const arcMat=()=>new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+    uniforms:{uHead:{value:0},uLen:{value:.35},uColor:{value:new THREE.Color(ACC)}},
+    vertexShader:'attribute float aT;varying float vT;void main(){vT=aT;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+    fragmentShader:'uniform float uHead;uniform float uLen;uniform vec3 uColor;varying float vT;void main(){float a=vT<=uHead?clamp((vT-(uHead-uLen))/uLen,0.,1.):0.;gl_FragColor=vec4(uColor,a*a);}'});
+  const ringGeo=new THREE.RingGeometry(.03,.06,32), arcs=[], impacts=[];
+  for(let i=0;i<(MOBILE?6:9);i++){const m=new THREE.Mesh(ringGeo,new THREE.MeshBasicMaterial({color:ACC,transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));globe.add(m);impacts.push({m,t:1});}
+  function impact(pos,color){const it=impacts.find(x=>x.t>=1)||impacts[0];it.t=0;it.m.position.copy(pos);it.m.lookAt(pos.clone().multiplyScalar(2));it.m.material.color.copy(color);}
+  function spawn(a){
+    const rnd=()=>Math.floor(Math.random()*CITIES.length);
+    let i=rnd(), j;
+    if(i!==0 && Math.random()<.35) j=0;   // parte do tráfego chega a Rondônia
+    else do{ j=rnd(); }while(j===i);
+    const p=LL(...CITIES[i],1), q2=LL(...CITIES[j],1), ang=p.angleTo(q2), hgt=.15+ang*.45, pos=a.geo.attributes.position;
+    for(let k=0;k<=SEG;k++){const t=k/SEG, v=new THREE.Vector3().copy(p).lerp(q2,t).normalize().multiplyScalar(R+.16+Math.sin(Math.PI*t)*hgt);pos.setXYZ(k,v.x,v.y,v.z);}
+    pos.needsUpdate=true; a.geo.computeBoundingSphere();
+    a.end=LL(...CITIES[j],R+.17); a.head=-Math.random()*.8; a.v=.004+Math.random()*.004;
+    a.mat.uniforms.uColor.value.copy(arcCols[Math.floor(Math.random()*arcCols.length)]); a.hit=false;
+  }
+  for(let i=0;i<(MOBILE?8:18);i++){
+    const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.BufferAttribute(new Float32Array((SEG+1)*3),3));
+    const tt=new Float32Array(SEG+1); for(let k=0;k<=SEG;k++) tt[k]=k/SEG; geo.setAttribute('aT',new THREE.BufferAttribute(tt,1));
+    const mat=arcMat(), line=new THREE.Line(geo,mat); globe.add(line);
+    const a={geo,mat,line}; spawn(a); a.head=-Math.random()*1.5; arcs.push(a);
   }
 
   // anéis orbitais
@@ -358,9 +428,12 @@ if(window.THREE && !LOW){ try{ bg=(function(){
     const t=clock.getElapsedTime();
     for(const k of ['x','y','s']) cur[k]+=(tgt[k]-cur[k])*.05;
     world.position.set(cur.x,cur.y+scrollY*.0012,0); world.scale.setScalar(cur.s);
-    globe.rotation.y=t*.06+scrollY*.0009; globe.rotation.x=.25+Math.sin(t*.2)*.04;
-    hubs.forEach(h=>h.scale.setScalar(.3+Math.sin(t*2+h.userData.ph)*.1));
-    arcs.forEach(a=>{a.t=(a.t+a.v)%1;a.pk.position.copy(a.curve.getPoint(a.t));});
+    // começa com o Brasil de frente e gira devagar
+    globe.rotation.y=1.12-t*.035+scrollY*.0006; globe.rotation.x=.12+Math.sin(t*.2)*.03;
+    home.scale.setScalar(.45+Math.sin(t*3)*.15);
+    arcs.forEach(a=>{a.head+=RM?0:a.v; const L=a.mat.uniforms.uLen.value; a.mat.uniforms.uHead.value=a.head;
+      if(!a.hit&&a.head>=1){a.hit=true;impact(a.end,a.mat.uniforms.uColor.value);} if(a.head>1+L) spawn(a);});
+    impacts.forEach(it=>{if(it.t<1){it.t+=.02;it.m.scale.setScalar(1+it.t*5);it.m.material.opacity=(1-it.t)*.9;}});
     rings.forEach((r,i)=>{r.a+=.004*(i?-.7:1);r.sat.position.set(Math.cos(r.a)*r.r,0,Math.sin(r.a)*r.r);});
     camera.position.x+=(mouse.x*1.2-camera.position.x)*.03;
     camera.position.y+=(.6-mouse.y*.8-camera.position.y)*.03;
