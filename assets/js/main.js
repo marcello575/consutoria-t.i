@@ -478,7 +478,7 @@ const topo=(function(){
   let renderer; try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});}catch(e){return topoFallback();}
   renderer.setPixelRatio(DPR);
   const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(42,1,.1,100);
-  camera.position.set(0,.6,14); camera.lookAt(0,-.4,0);
+  camera.position.set(0,.5,15); camera.lookAt(0,.1,0);
   scene.add(new THREE.AmbientLight(0x8fb6ff,.55));
   const dl=new THREE.DirectionalLight(0xffffff,.9); dl.position.set(4,8,6); scene.add(dl);
   const pl=new THREE.PointLight(ACC,1.2,20); pl.position.set(0,0,4); scene.add(pl);
@@ -570,7 +570,7 @@ const topo=(function(){
     ray.setFromCamera(m2,camera); const hit=ray.intersectObjects(meshes,false)[0]; if(hit) select(hit.object.userData.key);});
 
   function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;
-    camera.position.z=w<560?19:14; camera.lookAt(0,-.4,0); camera.updateProjectionMatrix();}
+    camera.position.z=w<560?20:15; camera.lookAt(0,.1,0); camera.updateProjectionMatrix();}
   addEventListener('resize',()=>{if(running)resize();});
 
   let running=false, raf=0; const clock=new THREE.Clock(), tmp=new THREE.Vector3();
