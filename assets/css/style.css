@@ -174,7 +174,7 @@ p{margin:0}
   padding:3px 7px;border-radius:5px;background:rgba(7,11,20,.75);border:1px solid var(--line-2);transform:translate(-50%,-150%);transition:border-color .2s,color .2s}
 .lbl.sel{border-color:var(--accent);color:var(--accent)}
 .lbl.down{border-color:var(--err);color:var(--err)}
-.topo-hint{position:absolute;left:14px;top:12px;font:400 11px var(--f-mono);color:var(--muted)}
+.topo-hint{position:absolute;right:14px;bottom:12px;text-align:right;font:400 11px var(--f-mono);color:var(--muted)}
 .topo-side{display:grid;gap:14px;align-content:start}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border:1px solid var(--line);border-radius:12px;background:var(--surface-solid)}
 .seg button{font:500 13px var(--f-body);color:var(--muted);background:none;border:0;border-radius:8px;padding:10px;cursor:pointer}
