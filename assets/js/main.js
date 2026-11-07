@@ -262,7 +262,14 @@ let bg=null;
 if(window.THREE && !LOW){ try{ bg=(function(){
   const canvas=document.getElementById('bg3d');
   const renderer=new THREE.WebGLRenderer({canvas,antialias:!MOBILE,alpha:true,powerPreference:'low-power'});
-  renderer.setPixelRatio(DPR);
+  // Sem placa de vídeo (máquina virtual, acesso remoto, driver bloqueado) o navegador
+  // desenha pelo processador: nesse caso o globo usa uma versão bem mais leve.
+  let GPU=''; try{const gl=renderer.getContext(), dbg=gl.getExtension('WEBGL_debug_renderer_info'); GPU=dbg?String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)):'';}catch(_){}
+  const SOFT=/swiftshader|llvmpipe|softpipe|software|basic render|microsoft basic/i.test(GPU);
+  let pr=SOFT?1:DPR; renderer.setPixelRatio(pr);
+  let lost=false;
+  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lost=true;});
+  canvas.addEventListener('webglcontextrestored',()=>{lost=false;});
   const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x070b14,0.045);
   const camera=new THREE.PerspectiveCamera(48,1,0.1,200); camera.position.set(0,0.6,10);
   const world=new THREE.Group(); scene.add(world);
@@ -287,33 +294,38 @@ if(window.THREE && !LOW){ try{ bg=(function(){
   for(let lon=-180;lon<180;lon+=30){for(let lat=-87;lat<87;lat+=3){grat.push(LL(lat,lon,R*1.003),LL(lat+3,lon,R*1.003));}}
   globe.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(grat),new THREE.LineBasicMaterial({color:ACC2,transparent:true,opacity:.07})));
 
-  // relevo: uma coluna por célula de terra (1° no computador, 2° no celular)
-  const STEP=MOBILE?2:1, cells=[];
-  if(D){
-    D.mask.split(';').forEach((row,y)=>{
-      if(y%STEP) return; let x=0, land=false;
-      for(const r of row.split(',')){const n=parseInt(r,36); if(land){for(let i=x;i<x+n;i++) if(i%STEP===0) cells.push([89.5-y,i-179.5]);} x+=n; land=!land;}
-    });
-  }
+  // relevo: uma coluna por célula de terra (1° no computador, 2° no celular, 3° sem placa de vídeo)
   const relief=(lat,lon)=>{ // relevo estilizado e contínuo
     const a=Math.sin(lat*.19+lon*.07)*Math.cos(lon*.13-lat*.05), b=Math.sin(lat*.47+1.3)*Math.sin(lon*.39+.7);
     return Math.max(0,Math.min(1,.45+.35*a+.2*b));
   };
-  const cellW=(Math.PI/180)*R*STEP*.86;
-  const boxes=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshStandardMaterial({color:0xffffff,roughness:.55,metalness:.15,emissive:0x0b3b3a,emissiveIntensity:.35}), Math.max(1,cells.length));
-  const up=new THREE.Vector3(0,1,0), m4=new THREE.Matrix4(), q=new THREE.Quaternion(), sc=new THREE.Vector3(), col=new THREE.Color();
-  const cLow=new THREE.Color(0x0f4a5a), cMid=new THREE.Color(0x22d3a6), cHigh=new THREE.Color(0x8ff5dc);
-  cells.forEach(([lat,lon],i)=>{
-    const h=.025+relief(lat,lon)*.11, n=LL(lat,lon,1);
-    q.setFromUnitVectors(up,n);
-    sc.set(cellW*Math.max(.25,Math.cos(lat*Math.PI/180)),h,cellW);
-    m4.compose(n.clone().multiplyScalar(R+h/2),q,sc); boxes.setMatrixAt(i,m4);
-    const k=relief(lat,lon); col.copy(cLow).lerp(cMid,Math.min(1,k*1.4)); if(k>.75) col.lerp(cHigh,(k-.75)*2.4);
-    boxes.setColorAt(i,col);
-  });
-  boxes.count=cells.length; boxes.instanceMatrix.needsUpdate=true; if(boxes.instanceColor) boxes.instanceColor.needsUpdate=true;
-  globe.add(boxes);
+  const landMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.55,metalness:.15,emissive:0x0b3b3a,emissiveIntensity:.35});
+  const boxGeo=new THREE.BoxGeometry(1,1,1);
+  let boxes=null, STEP=0;
+  function buildLand(step){
+    if(!D || step===STEP) return; STEP=step;
+    const cells=[];
+    D.mask.split(';').forEach((row,y)=>{
+      if(y%step) return; let x=0, land=false;
+      for(const r of row.split(',')){const n=parseInt(r,36); if(land){for(let i=x;i<x+n;i++) if(i%step===0) cells.push([89.5-y,i-179.5]);} x+=n; land=!land;}
+    });
+    const cellW=(Math.PI/180)*R*step*.86;
+    const mesh=new THREE.InstancedMesh(boxGeo,landMat,Math.max(1,cells.length));
+    const up=new THREE.Vector3(0,1,0), m4=new THREE.Matrix4(), q=new THREE.Quaternion(), sc=new THREE.Vector3(), col=new THREE.Color();
+    const cLow=new THREE.Color(0x0f4a5a), cMid=new THREE.Color(0x22d3a6), cHigh=new THREE.Color(0x8ff5dc);
+    cells.forEach(([lat,lon],i)=>{
+      const k=relief(lat,lon), h=.025+k*.11, n=LL(lat,lon,1);
+      q.setFromUnitVectors(up,n);
+      sc.set(cellW*Math.max(.25,Math.cos(lat*Math.PI/180)),h,cellW);
+      m4.compose(n.clone().multiplyScalar(R+h/2),q,sc); mesh.setMatrixAt(i,m4);
+      col.copy(cLow).lerp(cMid,Math.min(1,k*1.4)); if(k>.75) col.lerp(cHigh,(k-.75)*2.4);
+      mesh.setColorAt(i,col);
+    });
+    mesh.count=cells.length; mesh.instanceMatrix.needsUpdate=true; if(mesh.instanceColor) mesh.instanceColor.needsUpdate=true;
+    if(boxes){ globe.remove(boxes); boxes.dispose&&boxes.dispose(); }
+    boxes=mesh; globe.add(boxes);
+  }
+  buildLand(SOFT?3:(MOBILE?2:1));
 
   // fronteiras entre países, acima do relevo
   if(D){
@@ -371,7 +383,7 @@ if(window.THREE && !LOW){ try{ bg=(function(){
     a.end=LL(...CITIES[j],R+.17); a.head=-Math.random()*.8; a.v=.004+Math.random()*.004;
     a.mat.uniforms.uColor.value.copy(arcCols[Math.floor(Math.random()*arcCols.length)]); a.hit=false;
   }
-  for(let i=0;i<(MOBILE?8:18);i++){
+  for(let i=0;i<(SOFT?6:MOBILE?8:18);i++){
     const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.BufferAttribute(new Float32Array((SEG+1)*3),3));
     const tt=new Float32Array(SEG+1); for(let k=0;k<=SEG;k++) tt[k]=k/SEG; geo.setAttribute('aT',new THREE.BufferAttribute(tt,1));
     const mat=arcMat(), line=new THREE.Line(geo,mat); globe.add(line);
@@ -408,30 +420,42 @@ if(window.THREE && !LOW){ try{ bg=(function(){
 
   let scrollY=0; addEventListener('scroll',()=>{scrollY=window.scrollY},{passive:true});
   const clock=new THREE.Clock();
-  let lastT=0;
+  let lastT=0, slow=0, frames=0, lastNow=0;
   function frame(now){
-    // Pausa com a aba oculta; no celular, pausa durante a topologia 3D e limita a ~30 fps.
-    if(!RM && (document.hidden || (MOBILE && current==='projetos') || (MOBILE && now-lastT<32))){ requestAnimationFrame(frame); return; }
-    lastT=now||0;
-    const t=clock.getElapsedTime();
-    for(const k of ['x','y','s']) cur[k]+=(tgt[k]-cur[k])*.05;
-    world.position.set(cur.x,cur.y+scrollY*.0012,0); world.scale.setScalar(cur.s);
-    // começa com o Brasil de frente e gira devagar
-    globe.rotation.y=1.12-t*.035+scrollY*.0006; globe.rotation.x=.12+Math.sin(t*.2)*.03;
-    home.scale.setScalar(.45+Math.sin(t*3)*.15);
-    arcs.forEach(a=>{a.head+=RM?0:a.v; const L=a.mat.uniforms.uLen.value; a.mat.uniforms.uHead.value=a.head;
-      if(!a.hit&&a.head>=1){a.hit=true;impact(a.end,a.mat.uniforms.uColor.value);} if(a.head>1+L) spawn(a);});
-    impacts.forEach(it=>{if(it.t<1){it.t+=.02;it.m.scale.setScalar(1+it.t*5);it.m.material.opacity=(1-it.t)*.9;}});
-    rings.forEach((r,i)=>{r.a+=.004*(i?-.7:1);r.sat.position.set(Math.cos(r.a)*r.r,0,Math.sin(r.a)*r.r);});
-    camera.position.x+=(mouse.x*1.2-camera.position.x)*.03;
-    camera.position.y+=(.6-mouse.y*.8-camera.position.y)*.03;
-    camera.lookAt(0,0,0);
-    grid.position.z=(t*.6)%1;
-    renderer.render(scene,camera);
-    if(!RM) requestAnimationFrame(frame);
+    // Agenda o próximo quadro antes de tudo: um erro pontual nunca congela o globo.
+    requestAnimationFrame(frame);
+    now=now||performance.now();
+    if(lost || document.hidden || (MOBILE && current==='projetos')) { lastNow=now; return; }
+    if((MOBILE||SOFT) && now-lastT<32) return;   // ~30 fps em aparelhos mais modestos
+    lastT=now;
+    // Qualidade adaptativa: se a máquina não acompanha, reduz resolução e relevo.
+    const dt=lastNow?now-lastNow:16; lastNow=now; frames++;
+    if(frames>20){ slow = dt>70 ? slow+1 : Math.max(0,slow-1);
+      if(slow>30){ slow=0;
+        if(pr>1){ pr=1; renderer.setPixelRatio(pr); resize(); }
+        else if(STEP<3){ buildLand(STEP===1?2:3); }
+        else if(pr>.6){ pr=.6; renderer.setPixelRatio(pr); resize(); }
+      } }
+    try{
+      const t=clock.getElapsedTime();
+      for(const k of ['x','y','s']) cur[k]+=(tgt[k]-cur[k])*.05;
+      world.position.set(cur.x,cur.y+scrollY*.0012,0); world.scale.setScalar(cur.s);
+      // começa com o Brasil de frente e gira devagar (mais devagar com "reduzir movimento")
+      globe.rotation.y=1.12-t*(RM?.018:.042)+scrollY*.0006; globe.rotation.x=.12+(RM?0:Math.sin(t*.2)*.03);
+      home.scale.setScalar(RM?.45:.45+Math.sin(t*3)*.15);
+      arcs.forEach(a=>{a.line.visible=!RM; if(RM) return; a.head+=a.v; const L=a.mat.uniforms.uLen.value; a.mat.uniforms.uHead.value=a.head;
+        if(!a.hit&&a.head>=1){a.hit=true;impact(a.end,a.mat.uniforms.uColor.value);} if(a.head>1+L) spawn(a);});
+      impacts.forEach(it=>{if(it.t<1){it.t+=.02;it.m.scale.setScalar(1+it.t*5);it.m.material.opacity=(1-it.t)*.9;}});
+      rings.forEach((r,i)=>{r.a+=(RM?.0015:.004)*(i?-.7:1);r.sat.position.set(Math.cos(r.a)*r.r,0,Math.sin(r.a)*r.r);});
+      if(!RM){ camera.position.x+=(mouse.x*1.2-camera.position.x)*.03; camera.position.y+=(.6-mouse.y*.8-camera.position.y)*.03; }
+      camera.lookAt(0,0,0);
+      grid.position.z=RM?0:(t*.6)%1;
+      renderer.render(scene,camera);
+    }catch(e){ if(!frame.warned){ frame.warned=true; console.warn('Globo 3D:',e); } }
   }
-  frame(0);
-  return {setRoute(r){route=r;layout(r);if(RM)frame(0);}};
+  requestAnimationFrame(frame);
+  window.addEventListener('pageshow',()=>{lastNow=0;});
+  return {setRoute(r){route=r;layout(r);}, get info(){return {gpu:GPU,soft:SOFT,step:STEP,pr};}};
 })(); }catch(e){ console.warn('WebGL indisponível',e); } }
 
 if(!bg) document.body.classList.add('no3d');
@@ -551,10 +575,13 @@ const topo=(function(){
 
   let running=false, raf=0; const clock=new THREE.Clock(), tmp=new THREE.Vector3();
   function frame(){
+    if(!running) return;
+    raf=requestAnimationFrame(frame);   // agenda antes: um erro pontual não congela a cena
+    try{
     const t=clock.getElapsedTime(); idle+=1;
-    if(!dragging&&idle>120&&!RM) rotY+=.0015;
+    if(!dragging&&idle>120) rotY+=RM?.0006:.0015;
     G.rotation.set(rotX,rotY,0);
-    packets.forEach(p=>{p.t+=RM?0:p.v*1.6;placePacket(p);});
+    packets.forEach(p=>{p.t+=p.v*(RM?.6:1.6);placePacket(p);});
     waves.forEach(w=>{const k=((t*.6+w.userData.o)%1);w.scale.setScalar(1+k*2.2);w.material.opacity=(1-k)*.6;});
     NODES.isp1.mesh.rotation.y=t*.4; NODES.isp2.mesh.rotation.y=-t*.4;
     renderer.render(scene,camera);
@@ -563,7 +590,7 @@ const topo=(function(){
       n.mesh.getWorldPosition(tmp); tmp.y+=.45; tmp.project(camera);
       n.el.style.left=((tmp.x+1)/2*w)+'px'; n.el.style.top=((1-tmp.y)/2*h)+'px';
     }
-    if(running) raf=requestAnimationFrame(frame);
+    }catch(e){ if(!frame.warned){ frame.warned=true; console.warn('Topologia 3D:',e); } }
   }
   return {
     start(){if(running)return;running=true;requestAnimationFrame(()=>{resize();frame();});},
